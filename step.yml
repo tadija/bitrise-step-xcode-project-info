@@ -1,21 +1,13 @@
-title: "STEP TEMPLATE"
-summary: A short summary of the step. Don't make it too long ;)
+title: "Xcode Project Info"
+summary: Extracts version and build number to environment variables.
 description: |-
-  This is a Step template.
-  Contains everything what's required for a valid Stepman managed step.
+  This step will simply read version and build number from given `Info.plist` path,
+  then export those to **APP_VERSION** and **APP_BUILD** environment variables.
 
-  A Step's description (and generally any `description` property)
-  can be a [Markdown](https://en.wikipedia.org/wiki/Markdown) formatted text.
-
-  To create your own Step:
-
-  1. Create a new repository on GitHub
-  2. Copy the files from this folder into your repository
-  3. That's all, you can use it on your own machine
-  4. Once you're happy with it you can share it with others.
-website: https://github.com/...
-source_code_url: https://github.com/...
-support_url: https://github.com/.../issues
+  After this you can use these variables in other steps (ex. sending message on Slack).
+website: https://github.com/tadija/bitrise-step-xcode-project-info
+source_code_url: https://github.com/tadija/bitrise-step-xcode-project-info
+support_url: https://github.com/tadija/bitrise-step-xcode-project-info/issues
 host_os_tags:
   - osx-10.10
 project_type_tags:
@@ -30,27 +22,11 @@ dependencies:
     name: git
 run_if: ""
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - info_plist_path: Info.plist
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
-      is_expand: false
+      title: "Info.plist file path"
+      summary: Path to project's Info.plist file.
+      is_expand: true
       is_required: true
       is_dont_change_value: true
       value_options: []
-outputs:
-  - EXAMPLE_STEP_OUTPUT:
-    opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
-      description: |
-        Description of this output.
-
-        Can be Markdown formatted text.
-      is_expand: false
-      is_required: true
-      is_dont_change_value: true
