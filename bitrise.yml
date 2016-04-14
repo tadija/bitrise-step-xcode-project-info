@@ -23,7 +23,7 @@ workflows:
           but the step would use the default value specified in the `step.yml`
           file if you would not specify another value.
         inputs:
-        - info_plist_path: ./_tmp/TestProject/Info.plist
+        - info_plist_path: TestProject/Info.plist
 
 
   # ----------------------------------------------------------------
