@@ -13,20 +13,24 @@ host_os_tags:
 project_type_tags:
   - ios
 type_tags:
-  - script
+  - xcode
+  - versioning
 is_requires_admin_user: true
 is_always_run: false
 is_skippable: false
-dependencies:
-  - manager: brew
-    name: git
-run_if: ""
+deps:
+  check_only:
+  - name: xcode
 inputs:
   - info_plist_path: Info.plist
     opts:
       title: "Info.plist file path"
       summary: Path to project's Info.plist file.
-      is_expand: true
       is_required: true
-      is_dont_change_value: true
-      value_options: []
+outputs:
+  - APP_VERSION:
+    opts:
+      title: Version (CFBundleShortVersionString from Info.plist)
+  - APP_BUILD:
+    opts:
+      title: Build (CFBundleVersion from Info.plist)
