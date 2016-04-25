@@ -21,7 +21,7 @@ FILENAME=$(basename "${info_plist_path}")
 
 echo "|"
 echo "[INFO] Switching working dir to [${DIRECTORY}]"
-cd $DIRECTORY
+cd "${DIRECTORY}"
 
 if [ ! -f "${FILENAME}" ]; then
 	echo "[ERROR] File not found at given path: [${info_plist_path}]"
