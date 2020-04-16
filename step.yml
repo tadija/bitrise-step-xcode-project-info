@@ -4,6 +4,8 @@ description: |-
   This step will simply read Xcode Project Info data from `Info.plist` file,
   then export that data to environment variables prefixed with **XPI_**.
 
+  For Xcode 11 projects, it will read the version number from the pbxproj file.
+
   After this you can use these environment variables in other steps (ex. sending message on Slack).
 website: https://github.com/tadija/bitrise-step-xcode-project-info
 source_code_url: https://github.com/tadija/bitrise-step-xcode-project-info
@@ -20,7 +22,7 @@ is_always_run: false
 is_skippable: false
 deps:
   check_only:
-  - name: xcode
+    - name: xcode
 inputs:
   - info_plist_path: Info.plist
     opts:
@@ -31,6 +33,21 @@ inputs:
         then you should set this input to `ProjectName/Info.plist`.
       summary: ""
       is_required: true
+  - xcodeproj_path:
+    opts:
+      title: "Relative path from Source directory to the xcodeproj folder file (necessary for Xcode 11+ projects)"
+      description: |-
+        From Xcode 11, the version & build numbers are no longer stored in Info.plist, but replaced by the variables $(MARKETING_VERSION) and $(CURRENT_PROJECT_VERSION).
+        The actual numbers should be extracted from the pbxproj file.
+      summary: ""
+      is_required: false
+  - target:
+    opts:
+      title: "For Xcode 11+ projects, get the version & build for this target"
+      description: |-
+        The version & build number can differ depending on the target. If not specified, the default target will be used.
+      summary: ""
+      is_required: false
 outputs:
   - XPI_VERSION:
     opts:
