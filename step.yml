@@ -1,12 +1,10 @@
 title: "Xcode Project Info"
 summary: Extracts Xcode project info data to environment variables.
 description: |-
-  This step will simply read Xcode Project Info data from `Info.plist` file,
-  then export that data to environment variables prefixed with **XPI_**.
+  This step will simply extract Xcode project information (Version and Build),
+  and export them into environment variables prefixed with **XPI_**.
 
-  For Xcode 11 projects, it will read the version number from the pbxproj file.
-
-  After this you can use these environment variables in other steps (ex. sending message on Slack).
+  Afterwards, you can use these environment variables in other steps (ie. sending message on Slack).
 website: https://github.com/tadija/bitrise-step-xcode-project-info
 source_code_url: https://github.com/tadija/bitrise-step-xcode-project-info
 support_url: https://github.com/tadija/bitrise-step-xcode-project-info/issues
@@ -35,9 +33,9 @@ inputs:
       is_required: true
   - xcodeproj_path:
     opts:
-      title: "Relative path from Source directory to the xcodeproj folder file (necessary for Xcode 11+ projects)"
+      title: "Relative path from Source directory to Xcode project file"
       description: |-
-        From Xcode 11, the version & build numbers are no longer stored in Info.plist, but replaced by the variables $(MARKETING_VERSION) and $(CURRENT_PROJECT_VERSION).
+        Required for Xcode 11+, since version & build numbers are no longer stored in Info.plist, but replaced by the variables $(MARKETING_VERSION) and $(CURRENT_PROJECT_VERSION).
         The actual numbers should be extracted from the pbxproj file.
       summary: ""
       is_required: false
@@ -51,7 +49,7 @@ inputs:
 outputs:
   - XPI_VERSION:
     opts:
-      title: Version (CFBundleShortVersionString from Info.plist)
+      title: Version ($CFBundleShortVersionString or $MARKETING_VERSION)
   - XPI_BUILD:
     opts:
-      title: Build (CFBundleVersion from Info.plist)
+      title: Build ($CFBundleVersion or $CURRENT_PROJECT_VERSION)

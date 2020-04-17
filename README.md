@@ -1,20 +1,19 @@
 # Xcode Project Info
-**[Bitrise](https://www.bitrise.io) step which extracts Xcode project info data to environment variables**
+**[Bitrise](https://www.bitrise.io) step which extracts Xcode project information to environment variables**
 
 ## Description
 
-This step will simply read Xcode Project Info data from `Info.plist` file,
-then export that data to environment variables prefixed with **XPI_**.
-For Xcode 11 projects, it will read the version number from the xcodeproj folder instead.
+This step will simply extract Xcode project information (Version and Build),
+and export them into environment variables prefixed with **XPI_**.
 
-After this you can use these environment variables in other steps (ex. sending message on Slack).
+Afterwards, you can use these environment variables in other steps (ie. sending message on Slack).
 
 ## Outputs
 
-| Env Var        | Description                                          |
-| -------------- | ---------------------------------------------------- |
-| `$XPI_VERSION` | Version (CFBundleShortVersionString from Info.plist) |
-| `$XPI_BUILD`   | Build (CFBundleVersion from Info.plist)              |
+| Env Var        | Description                                                 |
+| -------------- | ----------------------------------------------------------- |
+| `$XPI_VERSION` | Version ($CFBundleShortVersionString or $MARKETING_VERSION) |
+| `$XPI_BUILD`   | Build ($CFBundleVersion or $CURRENT_PROJECT_VERSION)        |
 
 ## How to use this Step
 

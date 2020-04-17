@@ -35,12 +35,12 @@ echo "[INFO] Reading data from [${info_plist_path}]..."
 version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${FILENAME}")
 build=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${FILENAME}")
 
-# Xcode 11 projects specific behaviour
+# Xcode 11+
 if [ $version == '$(MARKETING_VERSION)' ] || [ $build == '$(CURRENT_PROJECT_VERSION)' ]; then
 	echo "[INFO] Xcode 11+ project detected, reading version & build number from xcodeproj instead..."
 	cd "${ORIGIN_PATH}"
 	if [ -z "${xcodeproj_path}" ]; then
-		echo "[ERROR] Please provide correct path to the xcodeproj folder"
+		echo "[ERROR] Xcode project is not found at given path: [${xcodeproj_path}]"
 		exit 1
 	fi
 	if [ -z "${target}" ]; then
@@ -56,6 +56,9 @@ if [ $version == '$(MARKETING_VERSION)' ] || [ $build == '$(CURRENT_PROJECT_VERS
 	if [ $build == '$(CURRENT_PROJECT_VERSION)' ]; then
 		build=$( echo "$PROJECT_SETTINGS" | grep "CURRENT_PROJECT_VERSION" | sed 's/[ ]*CURRENT_PROJECT_VERSION = //')
 	fi
+	echo "[INFO] Finished extracting data from [${xcodeproj_path}]."
+else
+	echo "[INFO] Finished extracting data from [${info_plist_path}]."
 fi
 
 envman add --key XPI_VERSION --value "${version}"
@@ -63,5 +66,3 @@ echo "[INFO] Version: ${version} -> Saved to \$XPI_VERSION environment variable.
 
 envman add --key XPI_BUILD --value "${build}"
 echo "[INFO] Build: ${build} -> Saved to \$XPI_BUILD environment variable."
-
-echo "[INFO] Finished extracting data from [${info_plist_path}]."
