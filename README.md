@@ -24,4 +24,5 @@ If your `Info.plist` file is in **RootDir/ProjectName** directory (for example),
 then you should set this input to `ProjectName/Info.plist`.
 
 For Xcode 11 projects, you will need to set the relative path from source directory to the `.xcodeproj` directory.
-Additionally, you can specify which target you want to get the version from.
+Additionally, you can specify which target you want to get the version & build numbers for.
+If actual values are set in Info.plist, they will be used instead of the values from the xcodeproj. This means it won't break if you set a build number within your workflow for instance.

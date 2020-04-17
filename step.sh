@@ -35,8 +35,9 @@ echo "[INFO] Reading data from [${info_plist_path}]..."
 version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${FILENAME}")
 build=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${FILENAME}")
 
-if [ $version=='$(MARKETING_VERSION)' ]; then
-	echo "[INFO] Xcode 11+ project detected, reading version number from xcodeproj instead..."
+# Xcode 11 projects specific behaviour
+if [ $version == '$(MARKETING_VERSION)' ] || [ $build == '$(CURRENT_PROJECT_VERSION)' ]; then
+	echo "[INFO] Xcode 11+ project detected, reading version & build number from xcodeproj instead..."
 	cd "${ORIGIN_PATH}"
 	if [ -z "${xcodeproj_path}" ]; then
 		echo "[ERROR] Please provide correct path to the xcodeproj folder"
@@ -48,7 +49,13 @@ if [ $version=='$(MARKETING_VERSION)' ]; then
 		TARGET_SPECIFIER="-target '${target}'"
 	fi
 	echo "[INFO] Reading data from [${xcodeproj_path}]..."
-	version=$(/bin/sh -c "xcodebuild -project ${xcodeproj_path} $TARGET_SPECIFIER -showBuildSettings" | grep "MARKETING_VERSION" | sed 's/[ ]*MARKETING_VERSION = //')
+	PROJECT_SETTINGS=$(/bin/sh -c "xcodebuild -project ${xcodeproj_path} $TARGET_SPECIFIER -showBuildSettings")
+	if [ $version == '$(MARKETING_VERSION)' ]; then
+		version=$( echo "$PROJECT_SETTINGS" | grep "MARKETING_VERSION" | sed 's/[ ]*MARKETING_VERSION = //')
+	fi
+	if [ $build == '$(CURRENT_PROJECT_VERSION)' ]; then
+		build=$( echo "$PROJECT_SETTINGS" | grep "CURRENT_PROJECT_VERSION" | sed 's/[ ]*CURRENT_PROJECT_VERSION = //')
+	fi
 fi
 
 envman add --key XPI_VERSION --value "${version}"

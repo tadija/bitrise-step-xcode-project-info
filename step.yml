@@ -37,15 +37,15 @@ inputs:
     opts:
       title: "Relative path from Source directory to the xcodeproj folder file (necessary for Xcode 11+ projects)"
       description: |-
-        From Xcode 11, the version number is no longer stored in Info.plist, but replaced by the variable $(MARKETING_VERSION).
-        The actual version number should be extracted from the pbxproj file.
+        From Xcode 11, the version & build numbers are no longer stored in Info.plist, but replaced by the variables $(MARKETING_VERSION) and $(CURRENT_PROJECT_VERSION).
+        The actual numbers should be extracted from the pbxproj file.
       summary: ""
       is_required: false
   - target:
     opts:
-      title: "For Xcode 11+ projects, get the version for this target"
+      title: "For Xcode 11+ projects, get the version & build for this target"
       description: |-
-        The version can differ depending on the target. If not specified, the default target will be used.
+        The version & build number can differ depending on the target. If not specified, the default target will be used.
       summary: ""
       is_required: false
 outputs:
